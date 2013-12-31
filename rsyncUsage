@@ -1,0 +1,3 @@
+rsync -aPvv /path/to/source/ /path/to/dest/
+
+explicitly state all /
