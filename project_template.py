@@ -6,8 +6,17 @@ author - Devin Villegas
 
 """
 
-import os
 import argparse
+import errno
+import os
+import sys
+
+def make_sure_path_exists(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
 
 parser = argparse.ArgumentParser(description='Create a data analysis directory structure')
 
@@ -23,7 +32,6 @@ target = cwd + '/' + project_name
 current_dirs = os.listdir(cwd)
 if args.project_name in current_dirs:
     print "Current project name exists in dir"
-    sys.exit(1)
 
 # Confirm location to create template
 ans = raw_input("Confirm creating " + project_name + " project in " + cwd + ": y/[n]\n")
@@ -36,15 +44,15 @@ dirs = ['cache','config','data','diagnostics',
         'doc','figures','lib','logs','munge',
         'profiling','reports','scratch','src',
         'tests']
-os.mkdir(target)
+make_sure_path_exists(target)
 for elem in dirs:
     create_dir = target + '/' + elem
     print "Creating " + create_dir
-    os.mkdir(create_dir)
+    make_sure_path_exists(create_dir)
 
 # Create subdirs
-os.mkdir(target + '/figures/exploratory')
-os.mkdir(target + '/figures/final')
+make_sure_path_exists(target + '/figures/exploratory')
+make_sure_path_exists(target + '/figures/final')
 
 print 'Writing README'
 fh1 = open(target + '/README.md','w')
