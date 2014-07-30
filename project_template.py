@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 """
 Creates a base directory structure ala Project Template (from R)
 author - Devin Villegas
